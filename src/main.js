@@ -12,6 +12,9 @@ if ('addEventListener' in document) {
   }, false);
 }
 
+//2.引入全局样式
+import './style/common.less'
+
 Vue.config.productionTip = false
 
 new Vue({

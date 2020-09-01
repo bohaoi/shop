@@ -1,5 +1,7 @@
 <template>
-  <div id="dashboard">分类</div>
+  <div id="dashboard">
+    <router-view />
+  </div>
 </template>
 
 <script>

@@ -1,10 +1,14 @@
 <template>
-  <div id="home">首页</div>
+  <div id="home">
+    <Header></Header>
+  </div>
 </template>
 
 <script>
 //1. 引入
 import {getHomeData} from "./../../service/api/index"
+//2. 引入头部导航组件
+import Header from "./components/header/Header"
 
 export default {
   name: "Home",
@@ -15,6 +19,9 @@ export default {
     }).catch(error=>{
       console.log(error)
     })
+  },
+  components:{
+    Header
   }
 };
 </script>

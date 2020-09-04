@@ -40,7 +40,7 @@ export default {};
 
 <style lang="less" scoped>
 .wrapper {
-  position: relative;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 2;

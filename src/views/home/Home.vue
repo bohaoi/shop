@@ -1,28 +1,41 @@
 <template>
   <div id="home">
     <Header></Header>
+    <Sowing :sowing_list="sowing_list"></Sowing>
   </div>
 </template>
 
 <script>
 //1. 引入
-import {getHomeData} from "./../../service/api/index"
+import { getHomeData } from "./../../service/api/index";
 //2. 引入头部导航组件
-import Header from "./components/header/Header"
+import Header from "./components/header/Header";
+//3. 引入swiper组件
+import Sowing from "./components/sowing/Sowing";
 
 export default {
   name: "Home",
-  created(){
-    //2. 请求网络数据
-    getHomeData().then((response) => {
-      console.log(response);
-    }).catch(error=>{
-      console.log(error)
-    })
+  data() {
+    return {
+      //首页的轮播图
+      sowing_list: [],
+    };
   },
-  components:{
-    Header
-  }
+  created() {
+    //请求网络数据
+    getHomeData()
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          this.sowing_list = response.data.list[0].icon_list;
+        }
+      })
+      .then((error) => console.log(error));
+  },
+  components: {
+    Header,
+    Sowing,
+  },
 };
 </script>
 

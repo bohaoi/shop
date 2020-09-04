@@ -1,8 +1,12 @@
 <template>
   <div id="home">
     <div v-if="!showLoading">
-      <Header></Header>
+      <!--头部-->
+      <Header/>
+      <!--轮播图-->
       <Sowing :sowing_list="sowing_list"></Sowing>
+      <!--中部导航-->
+      <Nav :nav_list="nav_list"/>
     </div>
     <van-loading
       v-else
@@ -20,6 +24,8 @@ import { getHomeData } from "./../../service/api/index";
 import Header from "./components/header/Header";
 //3. 引入swiper组件
 import Sowing from "./components/sowing/Sowing";
+//4. 引入nav导航
+import Nav from "./components/nav/Nav"
 
 export default {
   name: "Home",
@@ -27,7 +33,10 @@ export default {
     return {
       //首页的轮播图
       sowing_list: [],
+      //loading加载
       showLoading: true,
+      //导航数据
+      nav_list:[]
     };
   },
   created() {
@@ -37,6 +46,7 @@ export default {
         console.log(response);
         if (response.success) {
           this.sowing_list = response.data.list[0].icon_list;
+          this.nav_list = response.data.list[2].icon_list;
           //隐藏加载动画
           this.showLoading= false;
         }
@@ -46,6 +56,7 @@ export default {
   components: {
     Header,
     Sowing,
+    Nav
   },
 };
 </script>

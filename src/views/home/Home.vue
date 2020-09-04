@@ -1,7 +1,15 @@
 <template>
   <div id="home">
-    <Header></Header>
-    <Sowing :sowing_list="sowing_list"></Sowing>
+    <div v-if="!showLoading">
+      <Header></Header>
+      <Sowing :sowing_list="sowing_list"></Sowing>
+    </div>
+    <van-loading
+      v-else
+      type="spinner"
+      color="#75a342"
+      style="position: absolute;left:50%;top: 40%;transform: translate(-50%)"
+    >小张正在拼命加载中...</van-loading>
   </div>
 </template>
 
@@ -19,6 +27,7 @@ export default {
     return {
       //首页的轮播图
       sowing_list: [],
+      showLoading: true,
     };
   },
   created() {
@@ -28,6 +37,8 @@ export default {
         console.log(response);
         if (response.success) {
           this.sowing_list = response.data.list[0].icon_list;
+          //隐藏加载动画
+          this.showLoading= false;
         }
       })
       .then((error) => console.log(error));
@@ -43,6 +54,6 @@ export default {
 #home {
   width: 100%;
   height: 100%;
-  background-color: skyblue;
+  background-color: #f5f5f5;
 }
 </style>

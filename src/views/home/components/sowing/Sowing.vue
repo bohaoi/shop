@@ -28,14 +28,14 @@ export default {
         //分页
         pagination: {
           el: ".swiper-pagination",
-          clickable: true,
+          clickable: true
         },
         // 循环
         loop: true,
         // 切换时长
         autoplay: {
           delay: 1800,
-          // stopOnLastSlide: false,
+          stopOnLastSlide: false,
           disableOnInteraction: false,
         },
         // 速度
@@ -80,4 +80,9 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+#swiper >>> .swiper-pagination-bullet-active{
+  background-color: #75a342 ;
+}
+
 </style>

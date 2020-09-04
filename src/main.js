@@ -18,6 +18,9 @@ import './style/common.less'
 //3.引入全局UI组件库
 import './plugins/vant'
 
+// 4. 引入rem
+import '@/config/rem.js'
+
 Vue.config.productionTip = false
 
 new Vue({

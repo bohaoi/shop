@@ -7,6 +7,8 @@
       <Sowing :sowing_list="sowing_list"></Sowing>
       <!--中部导航-->
       <Nav :nav_list="nav_list"/>
+      <!--秒杀-->
+      <FlashSale :flash_sale_product_list="flash_sale_product_list"/>
     </div>
     <van-loading
       v-else
@@ -26,6 +28,9 @@ import Header from "./components/header/Header";
 import Sowing from "./components/sowing/Sowing";
 //4. 引入nav导航
 import Nav from "./components/nav/Nav"
+//5. 引入秒杀
+import FlashSale from "./components/flashSale/FlashSale"
+
 
 export default {
   name: "Home",
@@ -36,7 +41,9 @@ export default {
       //loading加载
       showLoading: true,
       //导航数据
-      nav_list:[]
+      nav_list:[],
+      //秒杀数据
+      flash_sale_product_list:[],
     };
   },
   created() {
@@ -47,6 +54,7 @@ export default {
         if (response.success) {
           this.sowing_list = response.data.list[0].icon_list;
           this.nav_list = response.data.list[2].icon_list;
+          this.flash_sale_product_list = response.data.list[3].product_list;
           //隐藏加载动画
           this.showLoading= false;
         }
@@ -56,7 +64,8 @@ export default {
   components: {
     Header,
     Sowing,
-    Nav
+    Nav,
+    FlashSale
   },
 };
 </script>
@@ -64,7 +73,7 @@ export default {
 <style lang="less" scoped>
 #home {
   width: 100%;
-  height: 100%;
+  height: 300rem;
   background-color: #f5f5f5;
 }
 </style>

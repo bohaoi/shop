@@ -9,6 +9,8 @@
       <Nav :nav_list="nav_list"/>
       <!--秒杀-->
       <FlashSale :flash_sale_product_list="flash_sale_product_list"/>
+      <!--猜你喜欢-->
+      <YouLike :you_like_product_list="you_like_product_list"/>
     </div>
     <van-loading
       v-else
@@ -30,6 +32,8 @@ import Sowing from "./components/sowing/Sowing";
 import Nav from "./components/nav/Nav"
 //5. 引入秒杀
 import FlashSale from "./components/flashSale/FlashSale"
+//6. 猜你喜欢
+import YouLike from './components/youLike/YouLike' 
 
 
 export default {
@@ -44,6 +48,8 @@ export default {
       nav_list:[],
       //秒杀数据
       flash_sale_product_list:[],
+      //猜你喜欢
+      you_like_product_list: [],
     };
   },
   created() {
@@ -55,6 +61,7 @@ export default {
           this.sowing_list = response.data.list[0].icon_list;
           this.nav_list = response.data.list[2].icon_list;
           this.flash_sale_product_list = response.data.list[3].product_list;
+          this.you_like_product_list = response.data.list[12].product_list;
           //隐藏加载动画
           this.showLoading= false;
         }
@@ -65,7 +72,8 @@ export default {
     Header,
     Sowing,
     Nav,
-    FlashSale
+    FlashSale,
+    YouLike
   },
 };
 </script>

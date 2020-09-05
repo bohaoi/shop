@@ -93,7 +93,8 @@ export default {
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
-        overflow-scrolling: touch;
+        overflow:scroll;
+        /* overflow-scrolling: touch; */
     }
 
     .itemsWrapper::-webkit-scrollbar{

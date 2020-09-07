@@ -2,15 +2,17 @@
   <div id="home">
     <div v-if="!showLoading">
       <!--头部-->
-      <Header/>
+      <Header />
       <!--轮播图-->
       <Sowing :sowing_list="sowing_list"></Sowing>
       <!--中部导航-->
-      <Nav :nav_list="nav_list"/>
+      <Nav :nav_list="nav_list" />
       <!--秒杀-->
-      <FlashSale :flash_sale_product_list="flash_sale_product_list"/>
+      <FlashSale :flash_sale_product_list="flash_sale_product_list" />
       <!--猜你喜欢-->
-      <YouLike :you_like_product_list="you_like_product_list"/>
+      <YouLike :you_like_product_list="you_like_product_list" />
+      <!--返回顶部-->
+      <MarkPage v-if="showBackStatus" :scrollToTop="scrollToTop" />
     </div>
     <van-loading
       v-else
@@ -29,12 +31,15 @@ import Header from "./components/header/Header";
 //3. 引入swiper组件
 import Sowing from "./components/sowing/Sowing";
 //4. 引入nav导航
-import Nav from "./components/nav/Nav"
+import Nav from "./components/nav/Nav";
 //5. 引入秒杀
-import FlashSale from "./components/flashSale/FlashSale"
+import FlashSale from "./components/flashSale/FlashSale";
 //6. 猜你喜欢
-import YouLike from './components/youLike/YouLike' 
-
+import YouLike from "./components/youLike/YouLike";
+//7. 引入处理返回顶部的函数
+import { showBack, animate } from "@/config/global";
+//8. 返回顶部页面
+import MarkPage from "./components/markPage/MarkPage";
 
 export default {
   name: "Home",
@@ -45,35 +50,48 @@ export default {
       //loading加载
       showLoading: true,
       //导航数据
-      nav_list:[],
+      nav_list: [],
       //秒杀数据
-      flash_sale_product_list:[],
+      flash_sale_product_list: [],
       //猜你喜欢
       you_like_product_list: [],
+      //是否显示返回顶部图标
+      showBackStatus: false,
     };
   },
   created() {
     //请求网络数据
-    getHomeData()
-      .then((response) => {
-        console.log(response);
-        if (response.success) {
-          this.sowing_list = response.data.list[0].icon_list;
-          this.nav_list = response.data.list[2].icon_list;
-          this.flash_sale_product_list = response.data.list[3].product_list;
-          this.you_like_product_list = response.data.list[12].product_list;
-          //隐藏加载动画
-          this.showLoading= false;
-        }
-      })
-      .then((error) => console.log(error));
+    getHomeData().then((response) => {
+      console.log(response);
+      if (response.success) {
+        this.sowing_list = response.data.list[0].icon_list;
+        this.nav_list = response.data.list[2].icon_list;
+        this.flash_sale_product_list = response.data.list[3].product_list;
+        this.you_like_product_list = response.data.list[12].product_list;
+        //隐藏加载动画
+        this.showLoading = false;
+        //开始监听滚动，到达一定位置就显示返回顶部按钮
+        showBack((status) => {
+          this.showBackStatus = status;
+        });
+      }
+    });
   },
   components: {
     Header,
     Sowing,
     Nav,
     FlashSale,
-    YouLike
+    YouLike,
+    MarkPage,
+  },
+  methods: {
+    // 滚回顶部
+    scrollToTop() {
+      // 做缓动动画返回顶部
+      let docB = document.documentElement || document.body;
+      animate(docB, { scrollTop: "0" }, 400, "ease-out");
+    },
   },
 };
 </script>

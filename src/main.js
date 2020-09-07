@@ -18,8 +18,11 @@ import './style/common.less'
 //3.引入全局UI组件库
 import './plugins/vant'
 
-// 4. 引入rem
+//4. 引入rem
 import '@/config/rem.js'
+
+//5. 引入全局过滤器
+import '@/config/filters'
 
 Vue.config.productionTip = false
 

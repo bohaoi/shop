@@ -61,21 +61,7 @@ export default {
   },
   created() {
     //请求网络数据
-    getHomeData().then((response) => {
-      console.log(response);
-      if (response.success) {
-        this.sowing_list = response.data.list[0].icon_list;
-        this.nav_list = response.data.list[2].icon_list;
-        this.flash_sale_product_list = response.data.list[3].product_list;
-        this.you_like_product_list = response.data.list[12].product_list;
-        //隐藏加载动画
-        this.showLoading = false;
-        //开始监听滚动，到达一定位置就显示返回顶部按钮
-        showBack((status) => {
-          this.showBackStatus = status;
-        });
-      }
-    });
+   this.reqData()
   },
   components: {
     Header,
@@ -86,6 +72,23 @@ export default {
     MarkPage,
   },
   methods: {
+    async reqData(){
+      //同步
+      let res = await getHomeData();
+      // console.log(response);
+      if (res.success) {
+        this.sowing_list = res.data.list[0].icon_list;
+        this.nav_list = res.data.list[2].icon_list;
+        this.flash_sale_product_list = res.data.list[3].product_list;
+        this.you_like_product_list = res.data.list[12].product_list;
+        //隐藏加载动画
+        this.showLoading = false;
+        //开始监听滚动，到达一定位置就显示返回顶部按钮
+        showBack((status) => {
+          this.showBackStatus = status;
+        });
+      }
+    },
     // 滚回顶部
     scrollToTop() {
       // 做缓动动画返回顶部

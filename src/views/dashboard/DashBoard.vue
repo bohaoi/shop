@@ -3,22 +3,41 @@
     <van-tabbar v-model="active" active-color="#75a342">
       <van-tabbar-item replace to="/dashboard/home">
         <span>首页</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? home_icon.active : home_icon.normal" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? home_icon.active : home_icon.normal"
+        />
       </van-tabbar-item>
       <van-tabbar-item replace to="/dashboard/category">
         <span>分类</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? category_icon.active : category_icon.normal" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? category_icon.active : category_icon.normal"
+        />
       </van-tabbar-item>
       <van-tabbar-item replace to="/dashboard/cart">
         <span>购物车</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? cart_icon.active : cart_icon.normal" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? cart_icon.active : cart_icon.normal"
+        />
       </van-tabbar-item>
       <van-tabbar-item replace to="/dashboard/mine">
         <span>我的</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? mine_icon.active : mine_icon.normal" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? mine_icon.active : mine_icon.normal"
+        />
       </van-tabbar-item>
     </van-tabbar>
-    <router-view />
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
   </div>
 </template>
 

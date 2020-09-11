@@ -3,68 +3,25 @@
     <!--头部-->
     <Header />
     <!--内容-->
-    <div class="listWrapper">
+    <div class="listWrapper" v-if="!showLoading">
+      <!--左边-->
       <div class="leftWrapper">
         <ul class="wrapper">
-          <li class="categoryItem selected">
-            <span class="textWrapper">推荐</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">安心蔬菜</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">豆制品</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">新鲜水果</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">肉禽蛋</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">海鲜水产</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">乳品烘焙</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">营养早餐</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">叮咚心选</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">米面粮油</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">调味品</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">方便速食</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">冰淇淋</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">酒水饮料</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">休闲零食</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">快手菜</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">南北干货</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">宝宝餐</span>
-          </li>
-          <li class="categoryItem">
-            <span class="textWrapper">厨房用品</span>
+          <li
+            class="categoryItem"
+            v-for="(cate,index) in categoriesData"
+            :key="cate.id"
+            :class="{selected:currentIndex === index}"
+            @click="clickLeftLi(index)"
+            ref="menuList"
+          >
+            <span class="textWrapper">{{cate.name}}</span>
           </li>
         </ul>
       </div>
+
+      <!--右边-->
+      <ContentView :categoriesDetailData="categoriesDetailData"/>
     </div>
   </div>
 </template>
@@ -72,67 +29,143 @@
 <script>
 //1. 引入头部组件
 import Header from "./components/Header";
+//2. 引入滚动组件
+import BScroll from "better-scroll";
+//3. 引入接口
+import { getCategories, getCategoriesDetail } from "./../../service/api/index";
+//4. 引入右边组件
+import ContentView from './components/ContentView'
+
 export default {
   name: "Category",
+  data() {
+    return {
+      // 是否显示加载的图标
+      showLoading: true,
+      // 左边列表数据
+      categoriesData: [],
+      // 左边item是否选中
+      currentIndex: 0,
+      // 右边列表数据
+      categoriesDetailData: [],
+    };
+  },
+  created() {
+    this.initData();
+  },
   components: {
     Header,
+    ContentView
+  },
+  methods: {
+    //1. 初始化操作(数据和界面)
+    async initData() {
+      //1. 获取左边数据
+      let leftRes = await getCategories();
+      console.log(leftRes);
+      if (leftRes.success) {
+        this.categoriesData = leftRes.data.cate;
+      }
+      console.log(this.categoriesData);
+      //2. 获取右边数据
+      let rightRes = await getCategoriesDetail("/lk001");
+      if (rightRes.success) {
+        this.categoriesDetailData = rightRes.data.cate;
+      }
+      console.log(this.categoriesDetailData);
+      //3. 隐藏loading
+      this.showLoading = false;
+
+      // 4. 初始化滚动框架
+      // this.$nextTick(() => {
+      //   this.leftScroll = new BScroll("leftWrapper", {
+      //     probeType: 3,
+      //     click: true,
+      //     scrollY: true,
+      //     tap: true,
+      //     mouseWheel: true,
+      //   });
+      // });
+    },
+
+    //2. 处理左边的点击
+    async clickLeftLi(index) {
+      //2.1 改变索引
+      this.currentIndex = index;
+
+      //2.2 获取滚动到对应位置的元素
+      let menuLists = this.$refs.menuList;
+      let el = menuLists[index];
+      console.log(el);
+
+      //2.3 滚动到响应元素
+      //  this.leftScroll.scrollToElement(el, 300);
+
+      //2.4 点击后获取右边的元素
+      let rightRes = await getCategoriesDetail(`/lk00${index + 1}`);
+      if (rightRes.success) {
+        this.categoriesDetailData = rightRes.data.cate;
+      }
+    },
   },
 };
 </script>
+<style scoped>
+    #category {
+        width: 100%;
+        height: 100%;
+        background-color: #F5F5F5;
+        overflow: hidden;
+    }
 
-<style lang="less" scoped>
-#category {
-  width: 100%;
-  height: 100%;
-  background-color: #f5f5f5;
-}
+    .listWrapper {
+        position: fixed;
+        top: 50px;
+        bottom: 50px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+    }
 
-.wrapper {
-  border-right: 1px solid #a5d523;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  // overflow-scrolling: touch;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 47px;
-  width: 5.3125rem;
-  background: #f4f4f4;
-}
+    .leftWrapper {
+        background-color: #F4F4F4;
+        width: 5.3125rem;
+        flex: 0 0 5.3125rem;
+    }
 
-.wrapper::-webkit-scrollbar {
-  display: none;
-}
+    .categoryItem {
+        padding: 0.75rem 0;
+        border-bottom: solid 1px #E8E9E8;
+        position: relative;
+    }
 
-.categoryItem {
-  padding: 0.75rem 0;
-  border-bottom: solid 1px #e8e9e8;
-}
+    .categoryItem .textWrapper {
+        line-height: 1.25rem;
+        border-left: solid 0.1875rem transparent;
+        padding: 0.3125rem 0.6875rem;
+        font-size: 0.8125rem;
+        color: #666666;
+    }
 
-.categoryItem .textWrapper {
-  line-height: 1.25rem;
-  border-left: solid 0.1875rem transparent;
-  padding: 0.3125rem 0.6875rem;
-  font-size: 0.8125rem;
-  color: #666666;
-}
-.categoryItem.selected {
-  background: #fff;
-}
+    .categoryItem.selected {
+        background: #FFF;
+    }
 
-.categoryItem.selected .textWrapper {
-  border-left-color: #3cb963;
-  font-weight: bold;
-  font-size: 0.875rem;
-  color: #333333;
-}
+    .categoryItem.selected .textWrapper {
+        border-left-color: #3cb963;
+        font-weight: bold;
+        font-size: 0.875rem;
+        color: #333333;
+    }
 
-@media (min-width: 960px) {
-  .wrapper {
-    border-right: 1px solid #e8e9e8;
-  }
-  .wrapper .categoryItem {
-    background: #fff;
-  }
-}
+    @media (min-width: 960px) {
+        .wrapper {
+            border-right: 1px solid #E8E9E8;
+        }
+
+        .wrapper .categoryItem {
+            background: #fff;
+        }
+    }
 </style>

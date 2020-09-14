@@ -46,7 +46,7 @@ export default {
   name: "DashBoard",
   data() {
     return {
-      active: 0,
+      active: Number(sessionStorage.getItem("tabBarActiveIndex")) || 0,
       home_icon: {
         normal: require("@/images/tabbar/home_default.png"),
         active: require("@/images/tabbar/home_selected.png"),
@@ -64,6 +64,12 @@ export default {
         active: require("@/images/tabbar/mine_selected.png"),
       },
     };
+  },
+  watch: {
+    active(value) {
+      let tabBarActiveIndex = value > 0 ? value : 0;
+      sessionStorage.setItem("tabBarActiveIndex", value);
+    },
   },
 };
 </script>

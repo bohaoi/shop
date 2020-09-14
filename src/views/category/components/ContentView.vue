@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper emptyWrapper">
-    <div v-for="(categoriesDetail, index) in categoriesDetailData" :key="categoriesDetail.id">
+    <div v-for="(categoriesDetail,index) in categoriesDetailData" :key="categoriesDetail.id">
       <div class="categoryTitle">{{categoriesDetail.name}}</div>
       <ProductItem :products="categoriesDetail.products" />
     </div>
@@ -9,6 +9,7 @@
 
 <script>
 import ProductItem from "./ProductItem";
+
 export default {
   name: "ContentView",
   props: {
@@ -24,7 +25,7 @@ export default {
 .wrapper {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overflow-scrolling: touch;
+  /* overflow-scrolling: touch; */
 }
 
 .wrapper {

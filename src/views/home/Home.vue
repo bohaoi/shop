@@ -40,6 +40,11 @@ import YouLike from "./components/youLike/YouLike";
 import { showBack, animate } from "@/config/global";
 //8. 返回顶部页面
 import MarkPage from "./components/markPage/MarkPage";
+//9. 引入购物车
+import { mapMutations } from "vuex";
+//10. 引入传值组件
+import PubSub from "pubsub-js";
+import { Toast } from "vant";
 
 export default {
   name: "Home",
@@ -61,7 +66,24 @@ export default {
   },
   created() {
     //请求网络数据
-   this.reqData()
+    this.reqData();
+  },
+  mounted() {
+    PubSub.subscribe("homeAddToCart", (msg, goods) => {
+      if (msg === "homeAddToCart") {
+        this.ADD_GOODS({
+          goodsId: goods.id,
+          goodsName: goods.name,
+          smallImage: goods.small_image,
+          goodsPrice: goods.price,
+        });
+        // 提示用户
+        Toast({
+          message: "添加到购物车成功！",
+          duration: 800,
+        });
+      }
+    });
   },
   components: {
     Header,
@@ -72,7 +94,8 @@ export default {
     MarkPage,
   },
   methods: {
-    async reqData(){
+    ...mapMutations(["ADD_GOODS"]),
+    async reqData() {
       //同步
       let res = await getHomeData();
       // console.log(response);

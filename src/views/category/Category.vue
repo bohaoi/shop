@@ -35,6 +35,10 @@ import BScroll from "better-scroll";
 import { getCategories, getCategoriesDetail } from "./../../service/api/index";
 //4. 引入右边组件
 import ContentView from "./components/ContentView";
+//5. 引入传值组件
+import PubSub from "pubsub-js";
+import { Toast } from "vant";
+
 
 export default {
   name: "Category",
@@ -107,6 +111,23 @@ export default {
         this.categoriesDetailData = rightRes.data.cate;
       }
     },
+  },
+  mounted() {
+    PubSub.subscribe("categoryAddToCart", (msg, goods) => {
+      if (msg === "categoryAddToCart") {
+        this.ADD_GOODS({
+          goodsId: goods.id,
+          goodsName: goods.name,
+          smallImage: goods.small_image,
+          goodsPrice: goods.price,
+        });
+        // 提示用户
+        Toast({
+          message: "添加到购物车成功！",
+          duration: 800,
+        });
+      }
+    });
   },
 };
 </script>

@@ -16,3 +16,7 @@ Vue.use(Image);
 //4. 引入提示
 import { Toast } from 'vant';
 Vue.use(Toast);
+
+//5. 引入蒙版
+import { Dialog } from 'vant';
+Vue.use(Dialog)

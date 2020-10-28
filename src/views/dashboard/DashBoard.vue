@@ -73,7 +73,7 @@ export default {
       if (this.shopCart) {
         // 购物车商品数量
         let num = 0;
-        // console.log( Object.values(this.shopCart))
+        console.log( Object.values(this.shopCart))
         Object.values(this.shopCart).forEach((goods, index) => {
           num += goods.num;
         });

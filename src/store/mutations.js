@@ -4,15 +4,15 @@ import {getStore,removeStore,setStore} from './../config/global'
 
 export default{
     //1. 往购物车中添加数据
-    [ADD_GOODS](state,{goodId,goodsName,smallImage,goodsPrice}){
+    [ADD_GOODS](state,{goodsId,goodsName,smallImage,goodsPrice}){
         let shopCart = state.shopCart;
         //1.1 判断商品是否存在
-        if(shopCart[goodId]){
-            shopCart[goodId]['num']++;
+        if(shopCart[goodsId]){
+            shopCart[goodsId]['num']++;
         }else{
-            shopCart[goodId]={
+            shopCart[goodsId]={
                 "num":1,
-                "id":goodId,
+                "id":goodsId,
                 "name":goodsName,
                 "small_image":smallImage,
                 "price":goodsPrice,

@@ -20,7 +20,7 @@
               <a
                 href="javascript:;"
                 class="cartCheckBox"
-                :checked="goods.checked"
+                :checked="!goods.checked"
                 @click.stop="singerGoodsSelected(goods.id)"
               ></a>
             </div>
@@ -54,7 +54,12 @@
       <!--底部通栏-->
       <div class="tabBar">
         <div class="tabBarLeft">
-          <a href="javascript:;" class="cartCheckBox"></a>
+          <a
+            href="javascript:;"
+            class="cartCheckBox"
+            :checked="!isSelectedAll"
+            @click.stop="selectedAll(isSelectedAll)"
+          ></a>
           <span style="font-size: 16px">全选</span>
           <div class="selectAll">
             合计：
@@ -78,9 +83,24 @@ export default {
   name: "Cart",
   computed: {
     ...mapState(["shopCart"]),
+    //1.商品是否全选
+    isSelectedAll() {
+      let tag = true;
+      Object.values(this.shopCart).forEach((goods, index) => {
+        if (!goods.checked) {
+          tag = false;
+        }
+      });
+      return tag;
+    },
   },
   methods: {
-    ...mapMutations(["REDUCE_CART", "ADD_GOODS","SELECTED_SINGER_GOODS"]),
+    ...mapMutations([
+      "REDUCE_CART",
+      "ADD_GOODS",
+      "SELECTED_SINGER_GOODS",
+      "SELECTED_All_GOODS",
+    ]),
     //1.移除购物车
     removeOutCart(goodsId, goodsNum) {
       if (goodsNum > 1) {
@@ -104,16 +124,24 @@ export default {
       }
     },
     //2.增加商品
-    addToCart(goodsId,goodsName,smallImage,goodsPrice){
+    addToCart(goodsId, goodsName, smallImage, goodsPrice) {
       this.ADD_GOODS({
-        goodsId,goodsName,smallImage,goodsPrice
-      })
+        goodsId,
+        goodsName,
+        smallImage,
+        goodsPrice,
+      });
     },
 
     //3.单个商品选中与取消选中
-    singerGoodsSelected(goodsId){
-      this.SELECTED_SINGER_GOODS({goodsId})
-    }
+    singerGoodsSelected(goodsId) {
+      this.SELECTED_SINGER_GOODS({ goodsId });
+    },
+
+    //4. 全选和取消全选
+    selectedAll(isSelected) {
+      this.SELECTED_All_GOODS({ isSelected });
+    },
   },
 };
 </script>

@@ -3,6 +3,7 @@ import {
   INIT_SHOP_CART,
   REDUCE_CART,
   SELECTED_SINGER_GOODS,
+  SELECTED_All_GOODS,
 } from "./mutations-type";
 
 import { getStore, removeStore, setStore } from "./../config/global";
@@ -68,9 +69,22 @@ export default {
       if (goods.checked) {
         goods.checked = !goods.checked;
       } else {
-        Vue.set(goods, 'checked', true);
+        Vue.set(goods, "checked", true);
       }
     }
-    state.shopCart = {...shopCart}
+    state.shopCart = { ...shopCart };
+  },
+
+  //5. 所有商品选中和取消选中
+  [SELECTED_All_GOODS](state, { isSelected }) {
+    let shopCart = state.shopCart;
+    Object.values(shopCart).forEach((goods, index) => {
+      if (goods.checked) {
+        goods.checked = !isSelected;
+      } else {
+        Vue.set(goods, "checked", !isSelected);
+      }
+    });
+    state.shopCart = { ...shopCart };
   },
 };

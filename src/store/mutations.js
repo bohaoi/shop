@@ -1,6 +1,12 @@
-import { ADD_GOODS, INIT_SHOP_CART, REDUCE_CART } from "./mutations-type";
+import {
+  ADD_GOODS,
+  INIT_SHOP_CART,
+  REDUCE_CART,
+  SELECTED_SINGER_GOODS,
+} from "./mutations-type";
 
 import { getStore, removeStore, setStore } from "./../config/global";
+import Vue from "vue";
 
 export default {
   //1. 往购物车中添加数据
@@ -52,5 +58,19 @@ export default {
       //同步到本地
       setStore("shopCart", state.shopCart);
     }
+  },
+
+  //4. 单个商品的选中与取消
+  [SELECTED_SINGER_GOODS](state, { goodsId }) {
+    let shopCart = state.shopCart;
+    let goods = shopCart[goodsId];
+    if (goods) {
+      if (goods.checked) {
+        goods.checked = !goods.checked;
+      } else {
+        Vue.set(goods, 'checked', true);
+      }
+    }
+    state.shopCart = {...shopCart}
   },
 };

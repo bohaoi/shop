@@ -21,6 +21,7 @@
                 href="javascript:;"
                 class="cartCheckBox"
                 :checked="goods.checked"
+                @click.stop="singerGoodsSelected(goods.id)"
               ></a>
             </div>
             <div class="center">
@@ -79,8 +80,8 @@ export default {
     ...mapState(["shopCart"]),
   },
   methods: {
-    ...mapMutations(["REDUCE_CART", "ADD_GOODS"]),
-    //移除购物车
+    ...mapMutations(["REDUCE_CART", "ADD_GOODS","SELECTED_SINGER_GOODS"]),
+    //1.移除购物车
     removeOutCart(goodsId, goodsNum) {
       if (goodsNum > 1) {
         this.REDUCE_CART({ goodsId });
@@ -102,6 +103,17 @@ export default {
           });
       }
     },
+    //2.增加商品
+    addToCart(goodsId,goodsName,smallImage,goodsPrice){
+      this.ADD_GOODS({
+        goodsId,goodsName,smallImage,goodsPrice
+      })
+    },
+
+    //3.单个商品选中与取消选中
+    singerGoodsSelected(goodsId){
+      this.SELECTED_SINGER_GOODS({goodsId})
+    }
   },
 };
 </script>

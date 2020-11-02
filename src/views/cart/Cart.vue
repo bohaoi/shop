@@ -67,7 +67,8 @@
           </div>
         </div>
         <div class="tabBarRight">
-          <a href="#" class="pay">去结算({{ goodsCount }})</a>
+          <!-- <a href="#" class="pay">去结算({{ goodsCount }})</a> -->
+          <button class="pay" @click="toPay">去结算({{ goodsCount }})</button>
         </div>
       </div>
     </div>
@@ -187,6 +188,11 @@ export default {
           // on cancel
         });
     },
+
+    //6. 去支付
+    toPay(){
+      this.$router.push('/confirmOrder')
+    }
   },
 };
 </script>

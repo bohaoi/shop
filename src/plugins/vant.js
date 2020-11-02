@@ -20,3 +20,11 @@ Vue.use(Toast);
 //5. 引入蒙版
 import { Dialog } from 'vant';
 Vue.use(Dialog)
+
+//6. 导航栏
+import { NavBar } from 'vant';
+Vue.use(NavBar);
+
+//7. 地址
+import { ContactCard, ContactList, ContactEdit } from 'vant';
+Vue.use(ContactCard).use(ContactList).use(ContactEdit);

@@ -28,3 +28,9 @@ Vue.use(NavBar);
 //7. 地址
 import { ContactCard, ContactList, ContactEdit } from 'vant';
 Vue.use(ContactCard).use(ContactList).use(ContactEdit);
+
+import { AddressList } from 'vant';
+Vue.use(AddressList);
+
+import { AddressEdit } from 'vant';
+Vue.use(AddressEdit);

@@ -11,6 +11,10 @@ const Mine = () => import("./../views/mine/Mine.vue");
 //引入相关组件
 const Order = () => import("./../views/order/Order.vue");
 const MyAddress = () => import("./../views/order/children/MyAddress.vue");
+const AddAddress = () =>
+  import("./../views/order/children/children/AddAddress.vue");
+const EditAddress = () =>
+  import("./../views/order/children/children/EditAddress.vue");
 
 Vue.use(VueRouter);
 
@@ -50,6 +54,11 @@ const routes = [
         path: "myAddress",
         name: "myAddress",
         component: MyAddress,
+        children: [
+          //添加地址
+          { path: "addAddress", name: "addAddress", component: AddAddress },
+          { path: "editAddress", name: "editAddress", component: EditAddress },
+        ],
       },
     ],
   },

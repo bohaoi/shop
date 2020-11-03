@@ -1,7 +1,11 @@
 <template>
   <div id="order">
     <!--导航栏-->
-    <van-nav-bar title="填写订单" left-arrow @click-left="onClickLeft" ></van-nav-bar>
+    <van-nav-bar
+      title="填写订单"
+      left-arrow
+      @click-left="onClickLeft"
+    ></van-nav-bar>
 
     <!-- 收货地址 -->
     <van-contact-card
@@ -12,7 +16,10 @@
       @click="chooseAddress"
     ></van-contact-card>
 
-    <router-view></router-view>
+    <!--转场动画-->
+    <transition name="router-slider" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -31,12 +38,29 @@ export default {
     onClickLeft() {
       this.$router.back();
     },
-    chooseAddress(){
-        this.$router.push('/confirmOrder/myAddress')
-    }
+    chooseAddress() {
+      this.$router.push("/confirmOrder/myAddress");
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
+#order {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+/*转场动画*/
+.router-slider-enter-active,
+.router-slider-leave-active {
+  transition: all 0.3s;
+}
+
+.router-slider-enter,
+.router-slider-leave-active {
+  transform: translate3d(2rem, 2rem, 2rem);
+  opacity: 0;
+}
 </style>

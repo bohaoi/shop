@@ -34,3 +34,11 @@ Vue.use(AddressList);
 
 import { AddressEdit } from 'vant';
 Vue.use(AddressEdit);
+ 
+//8. 单元格
+import { Cell, CellGroup } from 'vant';
+Vue.use(Cell).use(CellGroup);
+
+//9. 提交订单栏
+import { SubmitBar } from 'vant';
+Vue.use(SubmitBar);

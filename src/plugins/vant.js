@@ -42,3 +42,11 @@ Vue.use(Cell).use(CellGroup);
 //9. 提交订单栏
 import { SubmitBar } from 'vant';
 Vue.use(SubmitBar);
+
+//10. 宫格
+import { Grid, GridItem } from 'vant';
+Vue.use(Grid).use(GridItem);
+
+//11. icon
+import { Icon } from 'vant';
+Vue.use(Icon);

@@ -12,7 +12,7 @@
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
             <div class="personMsg">
-              <img src="./images/fj.jpg" />
+              <img src="./images/js.png" />
               <div class="personInfo">
                 <span>移动商城</span>
                 <span class="name">小张--888</span>

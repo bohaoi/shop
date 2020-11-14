@@ -1,5 +1,5 @@
 <template>
-  <div id="mine">
+  <div id="mine" v-if="userInfo.token">
     <div class="tit">
       <van-nav-bar title="我的" :fixed="true" :border="true"></van-nav-bar>
       <!--用户-->
@@ -15,7 +15,7 @@
               <img src="./images/js.png" />
               <div class="personInfo">
                 <span>移动商城</span>
-                <span class="name">小张--888</span>
+                <span class="name">手机号：{{userInfo.phone}}</span>
               </div>
             </div>
           </template>
@@ -46,12 +46,15 @@
         <van-cell title="联系客服" icon="phone" value="客服时间 07:00-22:00" />
         <van-cell title="意见反馈" icon="smile-comment" is-link />
       </van-cell-group>
-
     </div>
   </div>
+  <SelectLogin v-else />
 </template>
 
 <script>
+import SelectLogin from "@/views/login/SelectLogin";
+import { mapState } from "vuex";
+
 export default {
   name: "Mine",
   data() {
@@ -64,6 +67,12 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
+  components:{
+    SelectLogin
+  }
 };
 </script>
 
@@ -108,7 +117,7 @@ export default {
   margin-top: 1.7px;
 }
 
-.van-cell__left-icon{
+.van-cell__left-icon {
   color: rgb(165, 119, 100);
   font-size: 1.3rem;
 }

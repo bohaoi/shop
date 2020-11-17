@@ -1,5 +1,6 @@
 <template>
   <div id="cart" v-if="userInfo.token">
+  <!-- <div id="cart"> -->
     <!--头部区域-->
     <header class="titleWrapper">
       <h4>
@@ -78,8 +79,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { Dialog } from "vant";
-import { Toast } from "vant";
+import { Dialog, Toast  } from "vant";
 import SelectLogin from "@/views/login/SelectLogin";
 
 export default {

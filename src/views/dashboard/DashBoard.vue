@@ -17,7 +17,11 @@
           :src="props.active ? category_icon.active : category_icon.normal"
         />
       </van-tabbar-item>
-      <van-tabbar-item replace to="/dashboard/cart" :info="goodsNum > 0 ? goodsNum : ''">
+      <van-tabbar-item
+        replace
+        to="/dashboard/cart"
+        :info="goodsNum > 0 ? goodsNum : ''"
+      >
         <span>购物车</span>
         <img
           slot="icon"
@@ -42,7 +46,7 @@
 </template>
 
 <script>
-import { mapState, mapMutation } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "DashBoard",
@@ -73,7 +77,7 @@ export default {
       if (this.shopCart) {
         // 购物车商品数量
         let num = 0;
-        console.log( Object.values(this.shopCart))
+        console.log(Object.values(this.shopCart));
         Object.values(this.shopCart).forEach((goods, index) => {
           num += goods.num;
         });
@@ -83,8 +87,43 @@ export default {
       }
     },
   },
+  mounted() {
+    // 1. 自动登录
+    this.reqUserInfo();
+
+    // 2. 获取购物车的数据
+    this.INIT_SHOP_CART();
+  },
   methods: {
-    // ...mapMutation(['INIT_SHOP_CART'])
+    ...mapMutations(["INIT_SHOP_CART"]),
+    ...mapActions(["reqUserInfo"]),
+    // async initShopCart() {
+    //   if (this.userInfo.token) {
+    //     // 已经登录
+    //     // 1. 获取当前用户购物车中的商品(服务器端)
+    //     let result = await getGoodsCart(this.userInfo.token);
+    //     console.log(result);
+    //     // 2. 如果获取成功
+    //     if (result.success_code === 200) {
+    //       let cartArr = result.data;
+    //       let shopCart = {};
+    //       // 2.1 遍历
+    //       cartArr.forEach((value) => {
+    //         shopCart[value.goods_id] = {
+    //           num: value.num,
+    //           id: value.goods_id,
+    //           name: value.goods_name,
+    //           small_image: value.small_image,
+    //           price: value.goods_price,
+    //           checked: value.checked,
+    //         };
+    //       });
+    //       // 2.2 本地数据同步
+    //       setStore("shopCart", shopCart);
+    //       this.INIT_SHOP_CART();
+    //     }
+    //   }
+    // },
   },
   watch: {
     active(value) {

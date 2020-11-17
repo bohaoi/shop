@@ -72,9 +72,9 @@
               </section>
             </section>
           </div>
-<button class="login-submit" @click.prevent="login">登录</button>
+          <button class="login-submit" @click.prevent="login">登录</button>
         </form>
-        <button class="login-back" @click.prevent="$router.back()">返回</button>
+          <button class="login-back" @click.prevent="$router.back()">返回</button>
       </div>
     </div>
   </div>
@@ -108,7 +108,7 @@ export default {
   computed: {
     // 验证手机号码是否正确
     phoneRight() {
-      return /^[1][3,4,5,7,8][0-9]{9}$/.test(this.phone);
+      return /^[1][3,4,5,6,7,8][0-9]{9}$/.test(this.phone);
     },
   },
   methods: {
@@ -177,7 +177,7 @@ export default {
           // 4.1 保存用户信息
           this.syncUserInfo(result.data);
           // 4.2 回到主面板
-          this.$router.back();
+          this.$router.push("/dashboard");
         } else {
           Toast({
             message: "登录失败，手机号码或者验证码不正确！",

@@ -1,5 +1,6 @@
 <template>
   <div id="mine" v-if="userInfo.token">
+  <!-- <div id="mine"> -->
     <div class="tit">
       <van-nav-bar title="我的" :fixed="true" :border="true"></van-nav-bar>
       <!--用户-->
@@ -8,6 +9,7 @@
           is-link
           style="background-color: #2eba5a; color: #fff"
           :center="true"
+          @click.prevent="$router.push('/dashboard/mine/userCenter')"
         >
           <!-- 使用 title 插槽来自定义标题 -->
           <template #title>
@@ -15,7 +17,7 @@
               <img src="./images/js.png" />
               <div class="personInfo">
                 <span>移动商城</span>
-                <span class="name">手机号：{{userInfo.phone}}</span>
+                <span class="name">手机号：{{ userInfo.phone }}</span>
               </div>
             </div>
           </template>
@@ -46,7 +48,12 @@
         <van-cell title="联系客服" icon="phone" value="客服时间 07:00-22:00" />
         <van-cell title="意见反馈" icon="smile-comment" is-link />
       </van-cell-group>
+      
     </div>
+    <!--路由的出口-->
+      <transition name="router-slider" mode="out-in">
+        <router-view></router-view>
+      </transition>
   </div>
   <SelectLogin v-else />
 </template>
@@ -70,9 +77,9 @@ export default {
   computed: {
     ...mapState(["userInfo"]),
   },
-  components:{
-    SelectLogin
-  }
+  components: {
+    SelectLogin,
+  },
 };
 </script>
 
@@ -120,5 +127,17 @@ export default {
 .van-cell__left-icon {
   color: rgb(165, 119, 100);
   font-size: 1.3rem;
+}
+
+/*转场动画*/
+.router-slider-enter-active,
+.router-slider-leave-active {
+  transition: all 0.3s;
+}
+
+.router-slider-enter,
+.router-slider-leave-active {
+  transform: translate3d(2rem, 0, 0);
+  opacity: 0;
 }
 </style>

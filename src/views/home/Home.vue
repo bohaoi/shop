@@ -18,8 +18,14 @@
       v-else
       type="spinner"
       color="#75a342"
-      style="position: absolute;left:50%;top: 40%;transform: translate(-50%)"
-    >小张正在拼命加载中...</van-loading>
+      style="
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%);
+      "
+      >小张正在拼命加载中...</van-loading
+    >
   </div>
 </template>
 
@@ -84,6 +90,9 @@ export default {
         });
       }
     });
+  },
+  beforeDestroy() {
+    PubSub.unsubscribe("homeAddToCart");
   },
   components: {
     Header,

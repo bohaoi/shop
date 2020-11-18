@@ -12,16 +12,15 @@ export default {
   async reqUserInfo({ commit }) {
     // 2.1 从本地获取数据
     let userInfo = JSON.parse(getStore("userInfo"));
-    // let userInfo = getStore("userInfo");
     if (userInfo) {
       commit(USER_INFO, { userInfo });
     } else {
       // 2.2 从服务器端验证
       let result = await getUserInfo();
       console.log(result);
-      // if (200 === result.success_code) {
-      //   commit(USER_INFO, { userInfo: result.data });
-      // }
+      if (200 === result.success_code) {
+        commit(USER_INFO, { userInfo: result.data });
+      }
     }
   },
 };

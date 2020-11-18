@@ -47,6 +47,8 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import { getGoodsCart } from "./../../service/api/index";
+import { setStore } from "./../../config/global";
 
 export default {
   name: "DashBoard",
@@ -71,8 +73,14 @@ export default {
       },
     };
   },
+   watch: {
+    active(value) {
+      let tabBarActiveIndex = value > 0 ? value : 0;
+      sessionStorage.setItem("tabBarActiveIndex", value);
+    },
+  },
   computed: {
-    ...mapState(["shopCart"]),
+    ...mapState(["shopCart","userInfo"]),
     goodsNum() {
       if (this.shopCart) {
         // 购物车商品数量
@@ -92,45 +100,41 @@ export default {
     this.reqUserInfo();
 
     // 2. 获取购物车的数据
-    this.INIT_SHOP_CART();
+    // this.initShopCart();
+    this.initShopCart();
   },
   methods: {
     ...mapMutations(["INIT_SHOP_CART"]),
     ...mapActions(["reqUserInfo"]),
-    // async initShopCart() {
-    //   if (this.userInfo.token) {
-    //     // 已经登录
-    //     // 1. 获取当前用户购物车中的商品(服务器端)
-    //     let result = await getGoodsCart(this.userInfo.token);
-    //     console.log(result);
-    //     // 2. 如果获取成功
-    //     if (result.success_code === 200) {
-    //       let cartArr = result.data;
-    //       let shopCart = {};
-    //       // 2.1 遍历
-    //       cartArr.forEach((value) => {
-    //         shopCart[value.goods_id] = {
-    //           num: value.num,
-    //           id: value.goods_id,
-    //           name: value.goods_name,
-    //           small_image: value.small_image,
-    //           price: value.goods_price,
-    //           checked: value.checked,
-    //         };
-    //       });
-    //       // 2.2 本地数据同步
-    //       setStore("shopCart", shopCart);
-    //       this.INIT_SHOP_CART();
-    //     }
-    //   }
-    // },
-  },
-  watch: {
-    active(value) {
-      let tabBarActiveIndex = value > 0 ? value : 0;
-      sessionStorage.setItem("tabBarActiveIndex", value);
+    async initShopCart() {
+      if (this.userInfo.token) {
+        // 已经登录
+        // 1. 获取当前用户购物车中的商品(服务器端)
+        let result = await getGoodsCart(this.userInfo.token);
+        // console.log(result);
+        // 2. 如果获取成功
+        if (result.success_code === 200) {
+          let cartArr = result.data;
+          let shopCart = {};
+          // 2.1 遍历
+          cartArr.forEach((value) => {
+            shopCart[value.goods_id] = {
+              num: value.num,
+              id: value.goods_id,
+              name: value.goods_name,
+              small_image: value.small_image,
+              price: value.goods_price,
+              checked: true
+            };
+          });
+          // 2.2 本地数据同步
+          setStore("shopCart", shopCart);
+          this.INIT_SHOP_CART();
+        }
+      }
     },
   },
+ 
 };
 </script>
 

@@ -38,7 +38,7 @@
                 </button>
             </section>
             <section class="login-verification">
-              <input type="number" maxlength="8" placeholder="验证码" v-model="code"/>
+              <input type="text" maxlength="8" placeholder="验证码" v-model="code"/>
             </section>
             <section class="login-hint">
               温馨提示：测试账号请输入手机号码，获取验证码，验证码均为666666
@@ -50,7 +50,7 @@
           <div :class="{ current: !loginMode }">
             <section>
               <section class="login-message">
-                <input type="tel" maxlength="11" placeholder="用户名" v-model="user_name"></input>
+                <input type="phone" maxlength="11" placeholder="用户名" v-model="user_name"></input>
               </section>
               <section class="login-verification">
                 <input v-if="pwdMode" type="password" maxlength="20" placeholder="密码" autocomplete="off" v-model="pwd"/>

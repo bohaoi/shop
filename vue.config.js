@@ -42,7 +42,7 @@ module.exports = {
         port: 8080,
         https: false,
         hotOnly: false,
-        // proxy: { // 配置跨域
+        proxy: { // 配置跨域
             // '/api': {
             //     target: 'http://localhost:5000/api/',
             //     ws: true,
@@ -51,7 +51,7 @@ module.exports = {
             //         '^/api': ''
             //     }
             // }
-        // },
+        },
         before: app => { }
     }
 }
